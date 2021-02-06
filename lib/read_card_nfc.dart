@@ -5,51 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:read_card_nfc/card_model.dart';
 
-// class ReadCardNfc {
-//   // static const MethodChannel _channel = const MethodChannel('read_card_nfc');
-//   // ReadCardNfc._() {
-//   //   _channel.setMethodCallHandler(_handleMethodCall);
-//   // }
-//   //
-//   // ReadCardNfc();
-//   //
-//   // static Future<String> get platformVersion async {
-//   //   final String version = await _channel.invokeMethod('getPlatformVersion');
-//   //   return version;
-//   // }
-//   //
-//   // Future startNFC() async {
-//   //   final String balance = await _channel.invokeMethod('startNFC');
-//   //   print(balance);
-//   // }
-//   //
-//   // getNewActivity() async {
-//   //   try {
-//   //     await _channel.invokeMethod('startNewActivity');
-//   //   } on PlatformException catch (e) {
-//   //     print(e.message);
-//   //   }
-//   // }
-//   //
-//   // // _handleMethodCall
-//   // Future<void> _handleMethodCall(MethodCall call) async {
-//   //   switch (call.method) {
-//   //     case 'onDiscovered':
-//   //       _handleOnDiscovered(call);
-//   //       break;
-//   //     case 'onError':
-//   //       _handleOnError(call);
-//   //       break;
-//   //     default:
-//   //       throw ('Not implemented: ${call.method}');
-//   //   }
-//   // }
-//
-//
-// }
+import 'card_model.dart';
 
 /// Signature for `NfcManager.startSession` onDiscovered callback.
-typedef NfcTagCallback = Future<void> Function(String tag);
+typedef NfcTagCallback = Future<void> Function(CardModel cardModel);
 
 /// Signature for `NfcManager.startSession` onError callback.
 typedef NfcErrorCallback = Future<void> Function(NfcError error);
@@ -146,10 +105,8 @@ class ReadCardNfc {
 
   // _handleOnDiscovered
   void _handleOnDiscovered(MethodCall call) async {
-    print('handelondiscovered');
     CardModel cardModel = CardModel.fromJson(jsonDecode(call.arguments));
-    print(cardModel.balance);
-    if (_onDiscovered != null) await _onDiscovered(call.arguments);
+    if (_onDiscovered != null) await _onDiscovered(cardModel);
     // final tag = $GetNfcTag(Map.from(call.arguments));
     // if (_onDiscovered != null) await _onDiscovered(tag);
     // await _disposeTag(tag.handle);
