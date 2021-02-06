@@ -228,7 +228,7 @@ public class ReadCardNfcPlugin implements FlutterPlugin, MethodCallHandler, NfcA
             localDecimalFormatSymbols.setMonetaryDecimalSeparator(',');
             localDecimalFormatSymbols.setGroupingSeparator('.');
             localDecimalFormat.setDecimalFormatSymbols(localDecimalFormatSymbols);
-            System.out.println("ccc");
+            System.out.println("Brizzi");
             try {
                 JSONObject obj = new JSONObject();
                 obj.put("card_id", "");
@@ -285,6 +285,24 @@ public class ReadCardNfcPlugin implements FlutterPlugin, MethodCallHandler, NfcA
 
         @Override
         public void onEKTPCardFound(Bitmap paramBitmap) {
+            System.out.println("EKTP Found");
+
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("card_id", "");
+                obj.put("card_name", "KTP");
+                obj.put("card_number", "");
+                obj.put("balance", "");
+                obj.put("another_info", "");
+                channel.invokeMethod("onDiscovered",
+                        obj.toString()
+                );
+            }catch (Exception e) {
+                e.printStackTrace();
+                channel.invokeMethod("onDiscovered",
+                        "Error " + e.toString()
+                );
+            }
 //      if (Build.VERSION.SDK_INT >= 21) {
 //        mCardBackground.setBackground(getDrawable(R.drawable.ektp));
 //      } else {
@@ -309,19 +327,35 @@ public class ReadCardNfcPlugin implements FlutterPlugin, MethodCallHandler, NfcA
             localDecimalFormatSymbols.setMonetaryDecimalSeparator(',');
             localDecimalFormatSymbols.setGroupingSeparator('.');
             localDecimalFormat.setDecimalFormatSymbols(localDecimalFormatSymbols);
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("card_id", "");
+                obj.put("card_name", "E-Money");
+                obj.put("card_number", paramAnonymousString);
+                obj.put("balance", String.valueOf(paramAnonymousLong));
+                obj.put("another_info", "");
+                channel.invokeMethod("onDiscovered",
+                        obj.toString()
+                );
+            }catch (Exception e) {
+                e.printStackTrace();
+                channel.invokeMethod("onDiscovered",
+                        "Error " + e.toString()
+                );
+            }
 //      if (Build.VERSION.SDK_INT >= 21) {
 //        mCardBackground.setBackground(getDrawable(R.drawable.emoney));
 //      } else {
 //        mCardBackground.setBackground(getResources().getDrawable(R.drawable.emoney));
 //      }
 //      mImageViewPhotoKtp.setVisibility(View.GONE);
-            StringBuilder paramAnonymousStringBuilder = new StringBuilder(paramAnonymousString);
-            int i = paramAnonymousString.length() - 4;
-            while (i > 0) {
-                paramAnonymousStringBuilder.insert(i, ' ');
-                i -= 4;
-            }
-            paramAnonymousString = paramAnonymousStringBuilder.toString();
+//            StringBuilder paramAnonymousStringBuilder = new StringBuilder(paramAnonymousString);
+//            int i = paramAnonymousString.length() - 4;
+//            while (i > 0) {
+//                paramAnonymousStringBuilder.insert(i, ' ');
+//                i -= 4;
+//            }
+//            paramAnonymousString = paramAnonymousStringBuilder.toString();
 //      if (mTextViewCardNumber != null) {
 //        mTextViewCardNumber.setText(paramAnonymousString);
 //        mTextViewCardNumber.setTextColor(ContextCompat.getColor(SplashScreenActivity.this, R.color.md_white_1000));
@@ -412,25 +446,42 @@ public class ReadCardNfcPlugin implements FlutterPlugin, MethodCallHandler, NfcA
 
         @Override
         public void onTapCashCardFound(@NonNull String paramAnonymousString, long paramAnonymousLong) {
+            System.out.println("Tap Cash Found");
             DecimalFormat localDecimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
             DecimalFormatSymbols localDecimalFormatSymbols = new DecimalFormatSymbols();
 //      localDecimalFormatSymbols.setCurrencySymbol(getString(R.string.currency_symbol));
             localDecimalFormatSymbols.setMonetaryDecimalSeparator(',');
             localDecimalFormatSymbols.setGroupingSeparator('.');
             localDecimalFormat.setDecimalFormatSymbols(localDecimalFormatSymbols);
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("card_id", "");
+                obj.put("card_name", "Tap Cash");
+                obj.put("card_number", paramAnonymousString);
+                obj.put("balance", String.valueOf(paramAnonymousLong));
+                obj.put("another_info", "");
+                channel.invokeMethod("onDiscovered",
+                        obj.toString()
+                );
+            }catch (Exception e) {
+                e.printStackTrace();
+                channel.invokeMethod("onDiscovered",
+                        "Error " + e.toString()
+                );
+            }
 //      if (Build.VERSION.SDK_INT >= 21) {
 //        mCardBackground.setBackground(getDrawable(R.drawable.tapcash));
 //      } else {
 //        mCardBackground.setBackground(getResources().getDrawable(R.drawable.tapcash));
 //      }
 //      mImageViewPhotoKtp.setVisibility(View.GONE);
-            StringBuilder paramAnonymousStringBuilder = new StringBuilder(paramAnonymousString);
-            int i = paramAnonymousString.length() - 4;
-            while (i > 0) {
-                paramAnonymousStringBuilder.insert(i, ' ');
-                i -= 4;
-            }
-            paramAnonymousString = paramAnonymousStringBuilder.toString();
+//            StringBuilder paramAnonymousStringBuilder = new StringBuilder(paramAnonymousString);
+//            int i = paramAnonymousString.length() - 4;
+//            while (i > 0) {
+//                paramAnonymousStringBuilder.insert(i, ' ');
+//                i -= 4;
+//            }
+//            paramAnonymousString = paramAnonymousStringBuilder.toString();
 //      if (mTextViewCardNumber != null) {
 //        mTextViewCardNumber.setText(paramAnonymousString);
 //        mTextViewCardNumber.setVisibility(View.VISIBLE);

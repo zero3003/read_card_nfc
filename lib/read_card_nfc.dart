@@ -105,8 +105,12 @@ class ReadCardNfc {
 
   // _handleOnDiscovered
   void _handleOnDiscovered(MethodCall call) async {
-    CardModel cardModel = CardModel.fromJson(jsonDecode(call.arguments));
-    if (_onDiscovered != null) await _onDiscovered(cardModel);
+    try {
+      CardModel cardModel = CardModel.fromJson(jsonDecode(call.arguments));
+      if (_onDiscovered != null) await _onDiscovered(cardModel);
+    } catch (e) {
+      _onDiscovered(CardModel());
+    }
     // final tag = $GetNfcTag(Map.from(call.arguments));
     // if (_onDiscovered != null) await _onDiscovered(tag);
     // await _disposeTag(tag.handle);
